@@ -1,4 +1,14 @@
-import { IImagesState } from "./slice";
+import { createSelector } from "@reduxjs/toolkit";
+import { RootState } from "../store";
 
-export const selectImages = (state: IImagesState) => state.images;
-export const selectIsLoading = (state: IImagesState) => state.isLoading;
+export const selectImagesState = (state: RootState) => state.images;
+
+export const selectImages = createSelector(
+  selectImagesState,
+  (imagesState) => imagesState.images
+);
+
+export const selectIsLoading = createSelector(
+  selectImagesState,
+  (imagesState) => imagesState.isLoading
+);
