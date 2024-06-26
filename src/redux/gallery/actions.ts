@@ -4,12 +4,17 @@ import { IImagesResponse } from "../../types";
 
 const BASE_URL = "https://pixabay.com/api/";
 const API_KEY = "44604102-a78f4a26367cf0bc57b232e92";
+// const API_KEY = "44629555-61c284bee48d3d3f5ab0f64cf";
 
 export const GALLERY_SLICE_NAME = "gallery";
 
 interface GetImagesParams {
   page?: number;
-  // category?: string;
+  imagesType?: string;
+  colors?: string;
+  order?: string;
+  orientation?: string;
+  searchQuery?: string;
 }
 
 export const getImagesAsync = createAsyncThunk<
@@ -18,10 +23,20 @@ export const getImagesAsync = createAsyncThunk<
   { rejectValue: string }
 >(
   `${GALLERY_SLICE_NAME}/fetchImages`,
-  async ({ page }: GetImagesParams, { rejectWithValue }) => {
+  async (
+    {
+      imagesType,
+      colors,
+      order,
+      orientation,
+      searchQuery,
+      page,
+    }: GetImagesParams,
+    { rejectWithValue }
+  ) => {
     try {
       const { data } = await axios.get<IImagesResponse>(
-        `${BASE_URL}?key=${API_KEY}&image_type&page=${page}`
+        `${BASE_URL}?key=${API_KEY}&image_type=${imagesType}&page=${page}&colors=${colors}&order=${order}&orientation=${orientation}&q=${searchQuery}`
       );
 
       return data;
