@@ -1,5 +1,12 @@
 import { ChangeEvent, FC, KeyboardEvent, useState } from "react";
-import TextField from "@mui/material/TextField";
+import {
+  Box,
+  TextField,
+  IconButton,
+  Button,
+  InputAdornment,
+} from "@mui/material";
+import ClearIcon from "@mui/icons-material/Clear";
 
 interface SearchInputProps {
   setSearchQuery: (query: string) => void;
@@ -27,29 +34,48 @@ export const SearchInput: FC<SearchInputProps> = ({
     }
   };
 
+  const handleClear = () => {
+    setInputValue("");
+    setSearchQuery("");
+    setPage(1);
+  };
+
   return (
-    <TextField
-      label="Search"
-      variant="outlined"
-      size="small"
-      value={inputValue}
-      onChange={handleInputChange}
-      onKeyDown={handleKeyDown}
-      InputProps={{
-        endAdornment: (
-          <button
-            onClick={handleSearch}
-            style={{
-              border: "none",
-              background: "none",
-              cursor: "pointer",
-              outline: "none",
-            }}
-          >
-            Search
-          </button>
-        ),
-      }}
-    />
+    <Box
+      display="flex"
+      alignItems="center"
+      flexWrap="wrap"
+      sx={{ marginTop: 2 }}
+    >
+      <TextField
+        label="Search"
+        variant="outlined"
+        size="small"
+        value={inputValue}
+        onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
+        InputProps={{
+          endAdornment: inputValue && (
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="clear search"
+                onClick={handleClear}
+                edge="end"
+              >
+                <ClearIcon />
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+        sx={{
+          flexGrow: 1,
+          marginRight: 1,
+          maxWidth: { xs: "100%", sm: "100%", md: "600px" },
+        }}
+      />
+      <Button variant="contained" color="primary" onClick={handleSearch}>
+        Search
+      </Button>
+    </Box>
   );
 };

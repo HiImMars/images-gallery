@@ -7,7 +7,14 @@ import { GalleryList } from "../components/Gallery/Gallery";
 import { Header } from "../components/Header/Header";
 import { Filters } from "../components/Filters/Filters";
 import { SearchInput } from "../components/SearchInput/SearchInput";
-import { Pagination, Stack } from "@mui/material";
+import {
+  Container,
+  Pagination,
+  Stack,
+  CircularProgress,
+  Box,
+} from "@mui/material";
+import { ScrollToTop } from "../components/ScrollToTop/ScrollToTop";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -32,7 +39,6 @@ const HomePage = () => {
   const buildSearchParams = () => {
     const params = new URLSearchParams();
     if (page !== 1) params.set("page", String(page));
-    if (imagesType !== "all") params.set("imagesType", imagesType);
     if (colors) params.set("colors", colors);
     if (order !== "popular") params.set("order", order);
     if (orientation !== "all") params.set("orientation", orientation);
@@ -78,7 +84,6 @@ const HomePage = () => {
 
   const handleImagesTypeChange = (type: string) => {
     setImagesType(type);
-    setPage(1);
   };
 
   return (
@@ -86,33 +91,45 @@ const HomePage = () => {
       <Header setImagesType={handleImagesTypeChange} />
       <main>
         <section>
-          <SearchInput setSearchQuery={setSearchQuery} setPage={setPage} />
-          <Filters
-            colors={colors}
-            setColors={setColors}
-            orientation={orientation}
-            setOrientation={setOrientation}
-            order={order}
-            setOrder={setOrder}
-            clearFilters={clearFilters}
-            setPage={setPage}
-          />
-          {isLoading ? (
-            <div>Loading...</div>
-          ) : (
-            <>
-              <GalleryList />
-              <Stack spacing={2} sx={{ justifyContent: "center", mt: 2 }}>
-                <Pagination
-                  count={20} // Замініть на фактичну кількість сторінок з вашого даних
-                  page={page}
-                  onChange={handlePageChange}
-                  color="primary"
-                />
-              </Stack>
-            </>
-          )}
+          <Container maxWidth="xl">
+            <SearchInput setSearchQuery={setSearchQuery} setPage={setPage} />
+            <Filters
+              colors={colors}
+              setColors={setColors}
+              orientation={orientation}
+              setOrientation={setOrientation}
+              order={order}
+              setOrder={setOrder}
+              clearFilters={clearFilters}
+              setPage={setPage}
+            />
+            {isLoading ? (
+              <Box display="flex" justifyContent="center" mt={10}>
+                <CircularProgress />
+              </Box>
+            ) : (
+              <>
+                <GalleryList />
+                <Stack spacing={2} sx={{ justifyContent: "center", mt: 2 }}>
+                  <Pagination
+                    count={25}
+                    page={page}
+                    onChange={handlePageChange}
+                    color="primary"
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      mt: 2,
+                      py: 3,
+                    }}
+                  />
+                </Stack>
+              </>
+            )}
+          </Container>
         </section>
+        <ScrollToTop />
       </main>
     </>
   );

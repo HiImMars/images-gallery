@@ -8,7 +8,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
-import { FC, MouseEvent, useState } from "react";
+import { FC, MouseEvent, useState, useEffect } from "react";
 
 const pages = ["All", "Photo", "Illustration", "Vector"];
 
@@ -18,6 +18,7 @@ interface HeaderProps {
 
 export const Header: FC<HeaderProps> = ({ setImagesType }) => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  const [activePage, setActivePage] = useState<string>("all");
 
   const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -25,10 +26,17 @@ export const Header: FC<HeaderProps> = ({ setImagesType }) => {
 
   const handleCloseNavMenu = (page: string) => {
     setAnchorElNav(null);
+    setActivePage(page.toLowerCase());
     if (setImagesType) {
       setImagesType(page.toLowerCase());
     }
   };
+
+  useEffect(() => {
+    if (setImagesType) {
+      setImagesType("all");
+    }
+  }, [setImagesType]);
 
   return (
     <AppBar position="static">
@@ -64,7 +72,11 @@ export const Header: FC<HeaderProps> = ({ setImagesType }) => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={() => handleCloseNavMenu(page)}>
+                <MenuItem
+                  key={page}
+                  onClick={() => handleCloseNavMenu(page)}
+                  selected={activePage === page.toLowerCase()}
+                >
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
@@ -75,7 +87,18 @@ export const Header: FC<HeaderProps> = ({ setImagesType }) => {
               <Button
                 key={page}
                 onClick={() => handleCloseNavMenu(page)}
-                sx={{ my: 2, color: "white", display: "block" }}
+                sx={{
+                  my: 2,
+                  color: "white",
+                  display: "block",
+                  backgroundColor:
+                    activePage === page.toLowerCase()
+                      ? "rgba(255, 255, 255, 0.2)"
+                      : "transparent",
+                  "&:hover": {
+                    backgroundColor: "rgba(255, 255, 255, 0.3)",
+                  },
+                }}
               >
                 {page}
               </Button>

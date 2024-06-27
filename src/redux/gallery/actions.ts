@@ -4,7 +4,6 @@ import { IImagesResponse } from "../../types";
 
 const BASE_URL = "https://pixabay.com/api/";
 const API_KEY = "44604102-a78f4a26367cf0bc57b232e92";
-// const API_KEY = "44629555-61c284bee48d3d3f5ab0f64cf";
 
 export const GALLERY_SLICE_NAME = "gallery";
 
