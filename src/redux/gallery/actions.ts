@@ -35,7 +35,7 @@ export const getImagesAsync = createAsyncThunk<
   ) => {
     try {
       const { data } = await axios.get<IImagesResponse>(
-        `${BASE_URL}?key=${API_KEY}&image_type=${imagesType}&page=${page}&colors=${colors}&order=${order}&orientation=${orientation}&q=${searchQuery}`
+        `${BASE_URL}?key=${API_KEY}&image_type=${imagesType}&page=${page}&colors=${colors}&order=${order}&orientation=${orientation}&q=${searchQuery}&safesearch=true`
       );
 
       return data;
