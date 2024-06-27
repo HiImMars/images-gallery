@@ -1,4 +1,4 @@
-This is a gallery of photos, illustratons and vectors.
+This is a gallery of photos, illustrations and vectors.
 
 ## Getting Started
 
