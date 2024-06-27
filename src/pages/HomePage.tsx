@@ -38,11 +38,12 @@ const HomePage = () => {
 
   const buildSearchParams = () => {
     const params = new URLSearchParams();
-    if (page !== 1) params.set("page", String(page));
+    if (imagesType !== "all") params.set("imagesType", imagesType);
     if (colors) params.set("colors", colors);
     if (order !== "popular") params.set("order", order);
     if (orientation !== "all") params.set("orientation", orientation);
     if (searchQuery) params.set("q", searchQuery);
+    if (page !== 1) params.set("page", String(page));
     return params.toString();
   };
 
@@ -51,23 +52,23 @@ const HomePage = () => {
     navigate(`/?${searchParams}`);
     dispatch(
       getImagesAsync({
-        page,
         imagesType,
         colors,
         order,
         orientation,
         searchQuery,
+        page,
       })
     );
   }, [
     dispatch,
     navigate,
-    page,
     imagesType,
     colors,
     order,
     orientation,
     searchQuery,
+    page,
   ]);
 
   const clearFilters = () => {
@@ -82,13 +83,9 @@ const HomePage = () => {
     setPage(value);
   };
 
-  const handleImagesTypeChange = (type: string) => {
-    setImagesType(type);
-  };
-
   return (
     <>
-      <Header setImagesType={handleImagesTypeChange} />
+      <Header setImagesType={setImagesType} />
       <main>
         <section>
           <Container maxWidth="xl">
