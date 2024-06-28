@@ -1,4 +1,4 @@
-import { Box, Card, CardMedia, Grid } from "@mui/material";
+import { Box, Card, CardMedia, Grid, Typography } from "@mui/material";
 import { useAppSelector } from "../../hooks/reduxHooks";
 import { selectImages } from "../../redux/gallery/selectors";
 import Fancybox from "../FancyBox/FancyBox";
@@ -8,7 +8,7 @@ export const GalleryList = () => {
 
   return (
     <Box p={2}>
-      {Boolean(images?.hits?.length) && (
+      {Boolean(images?.hits?.length) ? (
         <Fancybox
           options={{
             Carousel: {
@@ -33,6 +33,19 @@ export const GalleryList = () => {
             ))}
           </Grid>
         </Fancybox>
+      ) : (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            height: "100vh",
+            textAlign: "center",
+          }}
+        >
+          <Typography variant="h6" color="textSecondary">
+            No results found for your query
+          </Typography>
+        </Box>
       )}
     </Box>
   );
